@@ -1,17 +1,19 @@
 import streamlit as st
 import numpy as np
 
+st.title("Echo Bot")
+
 with st.chat_message("Lina"):
     st.write("Hello 👋")
     
-with st.chat_message("Shoshani"):    
-    st.write("Thank you ♡")
+# with st.chat_message("Shoshani"):    
+#     st.write("Thank you ♡")
 
-prompt = st.chat_input("Say something")
-if prompt:
-    st.write(f"User has sent the following prompt: {prompt}")
+# prompt = st.chat_input("Say something")
+# if prompt:
+#     st.write(f"User has sent the following prompt: {prompt}")
 
-st.title("Echo Bot")
+
 
 # Initialize chat history
 if "messages" not in st.session_state:
