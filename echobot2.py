@@ -1,4 +1,5 @@
 import streamlit as st
+import panda as np
 
 with st.chat_message("Lina"):
     st.write("Hello 👋")
