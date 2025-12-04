@@ -4,7 +4,7 @@ import numpy as np
 st.title("Echo Bot")
 
 with st.chat_message("Lina"):
-    st.write("Hello 👋")
+    st.write("Hello 👋 Lina")
     
 # with st.chat_message("Shoshani"):    
 #     st.write("Thank you ♡")
