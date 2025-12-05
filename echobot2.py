@@ -9,6 +9,8 @@ with st.chat_message("Lina"):
 # with st.chat_message("Shoshani"):    
 #     st.write("Thank you ♡")
 
+st.image("PowerbiImage.png", caption="Average total bill by sex")
+
 # prompt = st.chat_input("Say something")
 # if prompt:
 #     st.write(f"User has sent the following prompt: {prompt}")
