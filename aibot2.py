@@ -5,18 +5,6 @@ import time
 import requests
 import json
 
-import streamlit as st, requests
-
-st.header('Pokemon Images')
-mypokemon=['charizard','pikachu','eevee','snorlax','garchomp','lucario']
-pokemon=st.selectbox('Select a Pokemon', mypokemon)
-if pokemon:
-  r=requests.get(f'https://pokeapi.co/api/v2/pokemon/{pokemon}').json()
-  for img in r['sprites'].values():
-    if img is not None:
-      if str(img)[-4:]=='.png':
-        st.image(img)
-
 def ai_ask(prompt, data=None, temperature=0.5, max_tokens=250, model="mistral-small-latest", api_key=None, api_url="https://api.mistral.ai/v1/chat/completions"):
     if api_key is None or api_url is None:
         if "idToken" in globals():
