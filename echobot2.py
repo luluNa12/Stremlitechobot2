@@ -3,7 +3,9 @@ import numpy as np
 
 st.title("Echo Bot")
 
-
+if st.button("Clear chat"):
+    st.session_state.messages = []
+    st.rerun()
     
 with st.chat_message("Gene"):    
     st.write("Thank you 👌😁")
