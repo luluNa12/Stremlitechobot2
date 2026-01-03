@@ -15,11 +15,13 @@ def response_generator():
         yield word + " "
         time.sleep(0.05)
 
+with st.chat_message("assistant"):
+    st.image("DashboardImage.png", caption="CIT 144 – Demographics Data Visualization")
+
+
 
 st.title("Simple chat")
 
-with st.chat_message("assistant"):
-    st.image("DashboardImage.png", caption="CIT 144 – Demographics Data Visualization")
 
 # Initialize chat history
 if "messages" not in st.session_state:
