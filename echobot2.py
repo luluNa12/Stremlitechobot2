@@ -6,7 +6,7 @@ st.title("Echo Bot")
 # with st.chat_message("Lina"):
     # st.write("Hello 👋 Lina")
     
-with st.chat_message("Shoshani"):    
+with st.chat_message("Gene"):    
     st.write("Thank you ♡")
 
 st.title("Tips Data Visuals")
