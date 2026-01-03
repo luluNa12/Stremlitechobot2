@@ -6,6 +6,8 @@ import numpy as np
 with st.chat_message("user"):
     st.write("Hello 👋")
 
+with st.chat_message("assistant"):
+    st.image("DashboardImage.png", caption="Example image")
 
 
 st.title("Echo Bot")
