@@ -6,8 +6,8 @@ st.title("Echo Bot")
 with st.chat_message("Lina"):
     st.write("Hello 👋 Lina")
     
-# with st.chat_message("Shoshani"):    
-#     st.write("Thank you ♡")
+with st.chat_message("Shoshani"):    
+    st.write("Thank you ♡")
 
 st.title("Tips Data Visuals")
 st.image("PowerbiImage.png", caption="Average total bill by sex")
