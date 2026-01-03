@@ -15,8 +15,7 @@ def response_generator():
         yield word + " "
         time.sleep(0.05)
 
-with st.chat_message("assistant"):
-    st.image("DashboardImage.png", caption="CIT 144 – Demographics Data Visualization")
+
 
 
 
