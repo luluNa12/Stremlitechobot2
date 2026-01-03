@@ -2,18 +2,62 @@ import streamlit as st
 import random
 import time
 
-# Streamed response emulator
+import requests
+import json
+
+def ai_ask(prompt, data=None, temperature=0.5, max_tokens=250, model="mistral-small-latest", api_key=None, api_url="https://api.mistral.ai/v1/chat/completions"):
+    if api_key is None or api_url is None:
+        if "idToken" in globals():
+            api_key = globals()["idToken"]
+            api_url = "https://llm.boardflare.com"
+        else:
+            return "Login on the Functions tab for limited demo usage, or sign up for a free Mistral AI account at https://console.mistral.ai/ and add your own api_key."
+
+    if not isinstance(temperature, (float, int)) or not (0 <= float(temperature) <= 2):
+        return "Error: temperature must be a float between 0 and 2 (inclusive)"
+    if not isinstance(max_tokens, (float, int)) or not (5 <= float(max_tokens) <= 5000):
+        return "Error: max_tokens must be a number between 5 and 5000 (inclusive)"
+
+    # Construct the message incorporating both prompt and data if provided
+    message = prompt
+    if data is not None:
+        data_str = json.dumps(data, indent=2)
+        message += f"\n\nData to analyze:\n{data_str}"
+
+    # Prepare the API request payload
+    payload = {
+        "messages": [{"role": "user", "content": message}],
+        "temperature": float(temperature),
+        "model": model,
+        "max_tokens": int(max_tokens)
+    }
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    }
+
+    # Make the API request
+    response = requests.post(api_url, headers=headers, json=payload)
+    if response.status_code == 429:
+        return "You have hit the rate limit for the API. Please try again later."
+    try:
+        response.raise_for_status()
+        response_data = response.json()
+        content = response_data["choices"][0]["message"]["content"]
+        return content
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
 def response_generator():
-    response = random.choice(
-        [
-            "Hello there! How can I assist you today?",
-            "Hi, human! Is there anything I can help you with?",
-            "Do you need help?",
-        ]
-    )
+    response = ai_ask("Pretend you are a very friendly and helpful person.  Please provide a response given the provided context.  Please provide the response only with no before or after commentary.",
+                      data=st.session_state.messages,
+                      api_key=st.secrets["apikey"])
     for word in response.split():
         yield word + " "
         time.sleep(0.05)
+
 
 
 st.title("AI chat")
