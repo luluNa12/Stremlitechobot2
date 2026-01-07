@@ -60,7 +60,7 @@ def response_generator():
 
 
 
-st.title("AI chat")
+st.title("Lina Shoshani - AI chat")
 
 # Initialize chat history
 if "messages" not in st.session_state:
