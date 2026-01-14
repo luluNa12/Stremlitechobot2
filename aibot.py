@@ -13,6 +13,7 @@ router_model, router_labels = load_router()
 
 #Predict:
 def predict_topic(text):
+    text = str(text)                 # force string
     probs = router_model.predict([text])[0]
     return router_labels[int(probs.argmax())]
 
