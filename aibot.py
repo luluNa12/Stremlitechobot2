@@ -1,6 +1,22 @@
 import streamlit as st
 import random
 import time
+import tensorflow as tf
+
+@st.cache_resource
+def load_router():
+    model = tf.keras.models.load_model("tf_router_model.keras")
+    labels = [line.strip() for line in open("labels.txt","r")]
+    return model, labels
+
+router_model, router_labels = load_router()
+
+#Predict:
+def predict_topic(text):
+    probs = router_model.predict([text])[0]
+    return router_labels[int(probs.argmax())]
+
+
 
 import requests
 import json
@@ -78,6 +94,8 @@ for message in st.session_state.messages:
 
 # Accept user input
 if prompt := st.chat_input("What is up?"):
+    topic = predict_topic(prompt)
+
     # Display user message in chat message container
     with st.chat_message("user"):
         st.markdown(prompt)
