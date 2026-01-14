@@ -16,12 +16,10 @@ router_model, router_labels = load_router()
 import numpy as np
 
 def predict_topic(text):
-    text = str(text)                    #force string
-    x = np.array([text])                 # <-- this is the fix
+    text = str(text)
+    x = tf.constant([text])   # <-- use tf tensor (string)
     probs = router_model.predict(x, verbose=0)[0]
     return router_labels[int(probs.argmax())]
-
-
 
 def topic_instruction(topic):
     if topic == "excel":
