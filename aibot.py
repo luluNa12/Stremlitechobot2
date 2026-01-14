@@ -14,9 +14,22 @@ router_model, router_labels = load_router()
 
 #Predict:
 def predict_topic(text):
-    text = str(text)                 # force string
-    probs = router_model.predict([text])[0]
+    text = str(text)   #force string
+    probs = router_model.predict([text], verbose=0)[0]
     return router_labels[int(probs.argmax())]
+
+
+def topic_instruction(topic):
+    if topic == "excel":
+        return "Answer using simple Excel steps and menu clicks. Keep it short."
+    if topic == "r":
+        return "Answer using simple R steps. Explain functions in plain language."
+    if topic == "python":
+        return "Answer with Python troubleshooting steps. Ask for the exact error if needed."
+    if topic == "course":
+        return "Answer like an instructor. Keep it short and professional."
+    return "Answer normally."
+
 
 
 
@@ -68,13 +81,26 @@ def ai_ask(prompt, data=None, temperature=0.5, max_tokens=250, model="mistral-sm
         return f"Error: {str(e)}"
 
 
-def response_generator():
-    response = ai_ask("Pretend you are a very friendly and helpful person.  Please provide a response given the provided context.  Please provide the response only with no before or after commentary.",
-                      data=st.session_state.messages,
-                      api_key=st.secrets["apikey"])
+def response_generator(user_prompt, topic):
+    instruction = topic_instruction(topic)
+
+    full_prompt = (
+        "Pretend you are a very friendly and helpful person.\n"
+        + instruction
+        + "\n\nUser question:\n"
+        + user_prompt
+    )
+
+    response = ai_ask(
+        full_prompt,
+        data=st.session_state.messages,
+        api_key=st.secrets["apikey"]
+    )
+
     for word in response.split():
         yield word + " "
         time.sleep(0.05)
+
 
 
 
@@ -95,18 +121,18 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 # Accept user input
+# Accept user input
 if prompt := st.chat_input("What is up?"):
     topic = predict_topic(prompt)
 
-    # Display user message in chat message container
     with st.chat_message("user"):
         st.markdown(prompt)
-    # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
 
-# Display assistant response in chat message container
-with st.chat_message("assistant"):
-    response = st.write_stream(response_generator())
+    with st.chat_message("assistant"):
+        response = st.write_stream(response_generator(prompt, topic))
 
-# Add assistant response to chat history
-st.session_state.messages.append({"role": "assistant", "content": response})
+    st.session_state.messages.append({"role": "assistant", "content": response})
+
+
+
