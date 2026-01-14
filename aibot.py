@@ -6,7 +6,8 @@ import tensorflow as tf
 @st.cache_resource
 def load_router():
     model = tf.keras.models.load_model("tf_router_model.keras")
-    labels = [line.strip() for line in open("labels.txt","r")]
+    labels = [line.strip() for line in open("labels.txt")]
+    # labels = [line.strip() for line in open("labels.txt","r")]
     return model, labels
 
 router_model, router_labels = load_router()
