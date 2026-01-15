@@ -5,9 +5,7 @@ import requests
 import json
 
 
-# ----------------------------
 # 1) Load router model once
-# ----------------------------
 @st.cache_resource
 def load_router():
     model = tf.keras.models.load_model("tf_router_model.keras")
@@ -19,9 +17,8 @@ def load_router():
 router_model, router_labels = load_router()
 
 
-# ----------------------------
+
 # 2) Predict topic
-# ----------------------------
 def predict_topic(text):
     text = str(text)
     x = tf.constant([text])  # TensorFlow string tensor
@@ -29,9 +26,8 @@ def predict_topic(text):
     return router_labels[int(probs.argmax())]
 
 
-# ----------------------------
+
 # 3) Topic instructions
-# ----------------------------
 def topic_instruction(topic):
     if topic == "excel":
         return "Answer ONLY for Excel. Give short step-by-step Excel menu clicks. Do NOT mention Python or R."
@@ -44,9 +40,7 @@ def topic_instruction(topic):
     return "Answer normally."
 
 
-# ----------------------------
 # 4) LLM call (Mistral)
-# ----------------------------
 def ai_ask(
     prompt,
     temperature=0.5,
@@ -82,9 +76,8 @@ def ai_ask(
         return f"Error calling API: {str(e)}"
 
 
-# ----------------------------
+
 # 5) Stream response generator
-# ----------------------------
 def response_generator(user_prompt, topic):
     instruction = topic_instruction(topic)
 
@@ -102,9 +95,8 @@ def response_generator(user_prompt, topic):
         time.sleep(0.03)
 
 
-# ----------------------------
+
 # 6) Streamlit UI
-# ----------------------------
 st.title("Lina Shoshani - AI chat")
 
 # Chat history
