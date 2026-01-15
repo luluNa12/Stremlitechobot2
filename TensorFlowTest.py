@@ -18,10 +18,21 @@ router_model, router_labels = load_router()
 
 # 2) Predict topic
 def predict_topic(text):
-    text = str(text)
-    x = tf.constant([text])  # TensorFlow string tensor
+    text_lower = text.lower()
+
+    # HARD RULES (override model)
+    if "excel" in text_lower:
+        return "excel"
+    if "python" in text_lower:
+        return "python"
+    if " r " in text_lower or " in r" in text_lower:
+        return "r"
+
+    # Otherwise, use the ML model
+    x = tf.constant([str(text)])
     probs = router_model.predict(x, verbose=0)[0]
     return router_labels[int(probs.argmax())]
+
   
 #3) Topic instructions
 def topic_instruction(topic):
