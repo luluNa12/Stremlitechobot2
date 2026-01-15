@@ -61,14 +61,14 @@ def ai_ask(
     
     response = requests.post(api_url, headers=headers, json=payload)
 
-  if response.status_code == 429:
+    if response.status_code == 429:
       return "Rate limit reached. Please try again in a minute."
 
-  try:
+    try:
       response.raise_for_status()
       data = response.json()
       return data["choices"][0]["message"]["content"]
-  except Exception as e:
+    except Exception as e:
       return f"Error calling API: {str(e)}"
 
 # 5) Stream response generator
