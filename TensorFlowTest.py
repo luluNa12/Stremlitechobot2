@@ -96,7 +96,7 @@ def response_generator(user_prompt, topic):
     instruction = topic_instruction(topic)
 
     full_prompt = (
-        "Pretend you are a very friendly and helpful personn.\n"
+        "I am Lina AI a very friendly and helpful personn.\n"
         + instruction
         + "\n\nUser question:\n"
         + user_prompt
