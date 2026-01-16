@@ -53,7 +53,10 @@ def topic_instruction(topic):
     if topic == "course":
         return "Answer like an instructor for the course. Keep it short and professional."
     return "Answer normally."
-#4
+
+
+
+# 4) LLM call (Mistral)
 def ai_ask(
     prompt,
     temperature=0.5,
@@ -71,60 +74,22 @@ def ai_ask(
     }
     
     headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-    }
-
+          "Authorization": f"Bearer {api_key}",
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+   }
+    
     response = requests.post(api_url, headers=headers, json=payload)
 
     if response.status_code == 429:
-        return "Rate limit reached. Please try again in a minute."
+      return "Rate limit reached. Please try again in a minute."
 
     try:
-        response.raise_for_status()
-        data = response.json()
-        return data["choices"][0]["message"]["content"]
+      response.raise_for_status()
+      data = response.json()
+      return data["choices"][0]["message"]["content"]
     except Exception as e:
-        return f"Error calling API: {str(e)}"
-
-
-
-
-# 4) LLM call (Mistral)
-# def ai_ask(
-#     prompt,
-#     temperature=0.5,
-#     max_tokens=250,
-#     model="mistral-small-latest",
-#     api_url="https://api.mistral.ai/v1/chat/completions",
-# ):
-#     api_key = st.secrets["apikey"]
-
-#     payload = {
-#         "messages": [{"role": "user", "content": prompt}],
-#         "temperature": float(temperature),
-#         "model": model,
-#         "max_tokens": int(max_tokens),
-#     }
-    
-#     headers = {
-#           "Authorization": f"Bearer {api_key}",
-#           "Content-Type": "application/json",
-#           "Accept": "application/json",
-#    }
-    
-#     response = requests.post(api_url, headers=headers, json=payload)
-
-#     if response.status_code == 429:
-#       return "Rate limit reached. Please try again in a minute."
-
-#     try:
-#       response.raise_for_status()
-#       data = response.json()
-#       return data["choices"][0]["message"]["content"]
-#     except Exception as e:
-#       return f"Error calling API: {str(e)}"
+      return f"Error calling API: {str(e)}"
 
 # 5) Stream response generator
 def response_generator(user_prompt, topic):
