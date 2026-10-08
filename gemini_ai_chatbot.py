@@ -7,7 +7,7 @@ import time
 def ai_ask(messages, api_key):
     url = (
         "https://generativelanguage.googleapis.com/v1beta/"
-        "models/gemini-2.5-flash-lite:generateContent"
+        "models/gemini-3.5-flash-lite:generateContent"
     )
 
     contents = []
